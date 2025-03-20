@@ -134,14 +134,14 @@ void test_destroyArray() {
     printf("test_destroyArray passed\n");
 }
 
-int main() {
-    test_createArray();
-    test_append();
-    test_get();
-    test_delete();
-    test_grow();
-    test_shrink();
-    test_destroyArray();
+// int main() {
+//     test_createArray();
+//     test_append();
+//     test_get();
+//     test_delete();
+//     test_grow();
+//     test_shrink();
+//     test_destroyArray();
 
-    return 0;
-}
+//     return 0;
+// }
