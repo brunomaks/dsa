@@ -2,9 +2,11 @@
 #include "../include/dynamicArray.h"
 
 #define GROWTH_FACTOR 1.5
+#define SHRINK_FACTOR 2
 
 void destroy(Array *array);
-bool resize(Array *array);
+bool grow(Array *array);
+bool shrink(Array *array);
 bool sget(Array *array, size_t index, int *result);
 
 Array* createArray(size_t initial_capacity) {
@@ -37,7 +39,7 @@ bool append(Array *array, int value) {
     }
 
     if(array->size >= array->capacity ) {
-        if(!resize(array)) {
+        if(!grow(array)) {
             return false;
         }
     }
@@ -57,7 +59,7 @@ bool insert(Array *array, size_t index, int value) {
     }
 
     if(array->size + 1 >= array->capacity) {
-        if(!resize(array)) {
+        if(!grow(array)) {
             return false;
         }
     }
@@ -81,6 +83,27 @@ int get(Array *array, size_t index) {
     return val;
 }
 
+bool delete(Array *array, size_t index) {
+    if(!array) {
+        return false;
+    }
+
+    if(index >= array->size) {
+        return false;
+    }
+
+    for(size_t i = index; i < array->size - 1; i++) {
+        array->data[i] = array->data[i + 1];
+    }
+
+    array->size--;
+
+    if(array->size < (array->capacity / 2)) {
+        shrink(array);
+    }
+    return true;
+}
+
 
 // safe get handles out of bounds access
 bool sget(Array *array, size_t index, int *result) {
@@ -100,12 +123,22 @@ bool sget(Array *array, size_t index, int *result) {
     return true;
 }
 
-bool resize(Array *array) {
-    if(!array) {
+bool shrink(Array *array) {
+    int newSize = array->capacity / SHRINK_FACTOR;
+
+    int *data = realloc(array->data, newSize * sizeof(int));
+    if(!data) {
         return false;
     }
 
-    int newSize = GROWTH_FACTOR * array->capacity;
+    array->data = data;
+    array->capacity = newSize;
+
+    return true;
+}
+
+bool grow(Array *array) {
+    int newSize = array->capacity * GROWTH_FACTOR;
 
     int *data = realloc(array->data, newSize * sizeof(int));
     if(!data) {

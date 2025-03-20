@@ -1,6 +1,13 @@
 #include <stdio.h>
-#include <assert.h>
 #include "../include/dynamicArray.h"
+
+#define assert(condition) \
+    do { \
+        if (!(condition)) { \
+            fprintf(stderr, "Assertion failed, file %s, line %d\n", \
+                     __FILE__, __LINE__); \
+        } \
+    } while (0)
 
 void test_createArray() {
     Array* array = createArray(10);
@@ -52,7 +59,7 @@ void test_get() {
     printf("test_get passed\n");
 }
 
-void test_resize() {
+void test_grow() {
     Array* array = createArray(2);
     assert(array != NULL);
 
@@ -70,7 +77,48 @@ void test_resize() {
     assert(get(array, 2) == 30);
 
     destroy(array);
-    printf("test_resize passed\n");
+    printf("test_grow passed\n");
+}
+
+void test_shrink() {
+    Array *array = createArray(4);
+
+    append(array, 10);
+    append(array, 20);
+    append(array, 30);
+
+    // Delete elements to trigger resize
+    delete(array, 2);
+    delete(array, 1);
+
+    assert(array->capacity == 2);
+
+    assert(get(array, 0) == 10);
+    destroy(array);
+    printf("test_shrink passed\n");
+}
+
+void test_delete() {
+    Array *array = createArray(3);
+
+    append(array, 10);
+    append(array, 20);
+    append(array, 30);
+
+    assert(get(array, 0) == 10);
+    assert(get(array, 1) == 20);
+    assert(get(array, 2) == 30);
+
+    // Delete elements
+    delete(array, 2);
+    delete(array, 1);
+
+    // Check if two elements were deleted, should equal to -1
+    assert(get(array, 0) == 10);
+    assert(get(array, 1) == -1);
+    assert(get(array, 2) == -1);
+    destroy(array);
+    printf("test_delete passed\n");
 }
 
 void test_destroyArray() {
@@ -83,8 +131,6 @@ void test_destroyArray() {
 
     // Destroy the array
     destroy(array);
-
-    // Ensure no use-after-free (this is just a basic check)
     printf("test_destroyArray passed\n");
 }
 
@@ -92,9 +138,10 @@ int main() {
     test_createArray();
     test_append();
     test_get();
-    test_resize();
+    test_delete();
+    test_grow();
+    test_shrink();
     test_destroyArray();
 
-    printf("All tests passed!\n");
     return 0;
 }
