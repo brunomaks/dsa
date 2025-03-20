@@ -1,13 +1,14 @@
 # Compiler and flags
 CC = gcc
-CFLAGS = -Wall -Wextra -Iinclude
+CFLAGS = -Wall -Wextra -Iinclude -g
 
 # Directories
 SRC_DIR = src
+TEST_DIR = test
 INCLUDE_DIR = include
 
 # Source and object files
-SRCS = $(SRC_DIR)/dynamicArray.c main.c
+SRCS = $(SRC_DIR)/dynamicArray.c $(TEST_DIR)/testDynamicArray.c 
 OBJS = $(SRCS:.c=.o)
 
 # Output binary
