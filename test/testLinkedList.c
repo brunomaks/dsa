@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "tests.h"
 #include "../include/linkedList.h"
 
 #define assert(condition) \
@@ -15,7 +16,7 @@ void testCreateNode() {
     assert(node->value == 10); // Check if value is correct
     assert(node->next == NULL); // Check if next is NULL
     freeList(node);
-    printf("testCreateNode finished successfully.\n");
+    printf("testCreateNode passed\n");
 }
 
 // Test insertFront
@@ -34,7 +35,7 @@ void testInsertFront() {
     assert(head->next->value == 10); // Next node should have value 10
 
     freeList(head);
-    printf("testInsertFront finished successfully.\n");
+    printf("testInsertFront passed\n");
 }
 
 // Test insertEnd
@@ -48,7 +49,7 @@ void testInsertEnd() {
     assert(head->next->next == NULL); // Check if next is NULL
 
     freeList(head);
-    printf("testInsertEnd finished successfully.\n");
+    printf("testInsertEnd passed\n");
 }
 
 // Test search
@@ -71,7 +72,7 @@ void testSearch() {
     assert(result == NULL); // Check if NULL is returned for non-existing value
 
     freeList(head);
-    printf("testSearch finished successfully.\n");
+    printf("testSearch passed\n");
 }
 
 // Test deleteNode
@@ -92,7 +93,7 @@ void testDeleteNode() {
     assert(!deleteNode(head, 40)); // Check if deletion fails for non-existing value
 
     freeList(head);
-    printf("testDeleteNode finished successfully.\n");
+    printf("testDeleteNode passed\n");
 }
 
 // Test freeList
@@ -103,16 +104,16 @@ void testFreeList() {
 
     freeList(head); // Free the entire list
     // No assertions here, but valgrind or similar tools can check for memory leaks
-    printf("testFreeList finished successfully.\n");
+    printf("testFreeList passed\n");
 }
 
-int main() {
+void runLinkedListTests() {
+    printf(":::::::::LinkedList tests:::::::::\n");
     testCreateNode();
     testInsertFront();
     testInsertEnd();
     testSearch();
     testDeleteNode();
     testFreeList();
-
-    return 0;
+    printf(":::::::::LinkedList tests:::::::::\n\n");
 }

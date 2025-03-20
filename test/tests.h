@@ -1,0 +1,2 @@
+void runDynamicArrayTests();
+void runLinkedListTests();
