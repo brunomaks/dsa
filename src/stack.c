@@ -1,7 +1,8 @@
 #include <stdlib.h>
+#include <limits.h>
 #include "../include/stack.h"
 
-Node* createNode(int value) {
+Node* createStack(int value) {
     Node *newNode = malloc(sizeof(Node));
     if(!newNode) {
         return NULL;
@@ -13,6 +14,9 @@ Node* createNode(int value) {
 }
 
 int pop(Node **stack) {
+    if(!*stack) {
+        return INT_MIN;
+    }
     Node *temp = *stack;
     int value = temp->value;
     *stack = temp->next;
@@ -22,23 +26,27 @@ int pop(Node **stack) {
 
 
 bool push(Node **stack, int value) {
-    Node *newNode = createNode(value);
+    Node *newNode = createStack(value);
+    if(!newNode) {
+        return false;
+    }
     newNode->next = *stack;
     *stack = newNode;
+    return true;
 }
 
 int peek(Node *stack) {
+    if(!stack) {
+        return INT_MIN;
+    }
     return stack->value;
 }
 
 bool isEmpty(Node *stack) {
-    if(!stack) {
-        return true;
-    }
-    return false;
+    return stack == NULL;
 }
 
-void freeList(Node *head) {
+void freeStack(Node *head) {
     if(!head) {
         return;
     }

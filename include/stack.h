@@ -8,12 +8,12 @@ typedef struct Node {
     struct Node *next;
 } Node;
 
-Node* createNode(int value);
+Node* createStack(int value);
 int pop(Node **stack);
 bool push(Node **stack, int value);
 int peek(Node *stack);
 bool isEmpty(Node *stack);
-void freeList(Node *head);
+void freeStack(Node *head);
 
 #endif
 

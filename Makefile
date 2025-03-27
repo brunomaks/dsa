@@ -8,7 +8,7 @@ TEST_DIR = test
 INCLUDE_DIR = include
 
 # Source and object files
-SRCS = $(SRC_DIR)/dynamicArray.c $(TEST_DIR)/testDynamicArray.c $(SRC_DIR)/linkedList.c $(TEST_DIR)/testLinkedList.c main.c
+SRCS = $(SRC_DIR)/dynamicArray.c $(TEST_DIR)/testDynamicArray.c $(SRC_DIR)/linkedList.c $(TEST_DIR)/testLinkedList.c $(SRC_DIR)/stack.c $(TEST_DIR)/testStack.c main.c
 OBJS = $(SRCS:.c=.o)
 
 # Output binary
