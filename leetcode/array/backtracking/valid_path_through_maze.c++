@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <unordered_set>
+#include <list>
 
 using namespace std;
 
@@ -30,7 +31,7 @@ vector<int> findPath(vector<vector<int>>& maze, int start, int finish) {
   cout << curr << endl;
 
   while(!currentPath.empty() && currentPath.back() != finish) {
-    bool foundUnvisited = false;
+    bool foundUnvisited = false;  // iterator is better here
     int unvisited = -1;
     for(int neighbor : maze[curr]) {
       if(visited.find(neighbor) == visited.end()) { // if not yet visited
@@ -55,6 +56,33 @@ vector<int> findPath(vector<vector<int>>& maze, int start, int finish) {
   return currentPath;
 }
 
+bool findPath_r_helper(vector<vector<int>>& maze, int start, int finish, list<int>& path, unordered_set<int>& visited) {
+  if(start == finish) {
+    path.push_front(start);
+    return true;
+  }
+
+  visited.insert(start);
+  vector<int>::iterator it = maze[start].begin();
+  while(it != maze[start].end()) {
+    if(visited.count(*it) == 0) { // if not yet visited
+      if(findPath_r_helper(maze, *it, finish, path, visited)) {
+        path.push_front(start);
+        return true;
+      }
+    }
+    it++;
+  }
+  return false;
+}
+
+list<int> findPath_r(vector<vector<int>>& maze, int start, int finish) {
+  list<int> path;
+  unordered_set<int> visited;
+  bool solutionExists = findPath_r_helper(maze, start, finish, path, visited);
+  return path;
+}
+
 int main(void) {
   vector<vector<int>> maze(9);
   maze[0].push_back(1);
@@ -70,9 +98,10 @@ int main(void) {
 
   maze[7].push_back(8);
 
-  const vector<int> path = findPath(maze, 0, 8);
+  const vector<int> pat = findPath(maze, 0, 8);
+  const list<int> path = findPath_r(maze, 0, 8);
 
-  cout << "Path: ";
+    cout << "Path: ";
   for(const int& x : path) {
     cout << x << " ";
   }
