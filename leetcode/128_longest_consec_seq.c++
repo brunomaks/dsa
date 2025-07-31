@@ -4,19 +4,24 @@
 
 using namespace std;
 
-// Insert all elements into a set for O(1) average lookups. (average cuz hash collisions can make it O(n) in the worst case)
+// Insert all elements into a set for O(1) average lookups. O(n)
+// (average-case because hash collisions can degrade to O(n) worst-case)
 //
-// Iterate through each number in the array:
+// Iterate through each number in the array: O(n)
 //
-//     For each number num, check if num - 1 exists in the set.
+//   For each number num, check if num - 1 exists in the set.
 //
-//         If it does, skip it (since it's not the start of a sequence).
+//     If it does, skip it (since it's not the start of a sequence).
 //
-//         If it doesn't, it means num could be the start of a new sequence.
+//     If it doesn't, it means num could be the start of a new sequence.
 //
-//             Initialize counter = 1, and while num + counter exists in the set, increment counter.
+//       Initialize counter = 1, and while num + counter exists in the set, increment counter. O(n - 1)
+//       However, the while loop runs O(n) in total, not O(n) per element, so the overall complexity does NOT become O(n^2)
 //
-//     Track the maximum counter seen.
+//       Track the maximum counter seen.
+//
+// Overall: Time Complexity: O(n) average case, O(n^2) worst-case due to hash collisions;
+// Space Complexity: O(n) for the hash set
 
 class Solution {
 public:
@@ -30,13 +35,12 @@ public:
         hashset.insert(x);
       }
 
-      int counter = 0;
       int maxCounter = 0;
       for(int curr : nums) {
-        counter = 0;
 
+        // If leetcode says time limit exceeded, use .count() instead of .find() == .end()
         if(hashset.find(curr - 1) == hashset.end()) { // IS NOT in the set
-          counter = 1;
+          int counter = 1;
           while(hashset.find(curr + counter) != hashset.end()) { // IS in the set
             counter++;
           }

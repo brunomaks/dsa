@@ -1,34 +1,41 @@
 #include <iostream>
 #include <vector>
 #include <unordered_map>
-#include <algorithm>
 
 using namespace std;
 
+// 1) Add all the elements to the hash map and count frequencies. O(n)
+//
+// 2) Create a bucket array where indexes are frequencies. O(n)
+//
+// 3) Push the first K elements to the return array. O(n) when k == n 
+//
+// Overall: Time Complexity: O(n); Space Complexity: O(n) due to map and vector;
+
 class Solution {
 public:
-    vector<int> topKFrequent(vector<int>& nums, int k) {
-        unordered_map<int, int> map;
+vector<int> topKFrequent(vector<int>& nums, int k) {
+  unordered_map<int, int> freq;
 
-        for(int x : nums) {
-            map[x]++;
-        }
+  for(int x : nums) {
+    freq[x]++;
+  }
 
-        vector<pair<int, int>> pairs(map.begin(), map.end());
+  vector<vector<int>> buckets(nums.size() + 1); // index == frequency
+  for(const auto& [num, count] : freq) {
+    buckets[count].push_back(num);
+  }
 
-        // descending order
-        sort(pairs.begin(), pairs.end(),
-             [](const pair<int, int>& a, const pair<int, int>& b) {
-                  return a.second > b.second;
-             });
-
-        vector<int> res;
-
-        for(int i = 0; i < k; i++) {
-           res.push_back(pairs[i].first);
-        }
-        return res;
+  vector<int> result;
+  for(int i = buckets.size() - 1; i >= 0 && result.size() < k; --i) {
+    for(int num: buckets[i]) {
+      result.push_back(num);
+      if(result.size() == k) break;
     }
+  }
+
+  return result;
+}
 };
 
 int main() {
