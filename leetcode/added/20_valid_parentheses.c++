@@ -4,6 +4,27 @@
 
 using namespace std;
 
+/*
+  Validates if a string of parentheses is valid
+
+  Iterate over each char in the input string; O(n)
+    If its an opening parenthes -> push onto the stack
+
+    If its a closing parenthes:
+      and if its the first element in the input -> return false
+
+      peek the curr top element from the stack
+
+      if the element peeked is not a matching opening parenthes -> return false
+      else remove the opening parenthes from the stack and move on
+
+    If after removal off all the matching pairs the stack is not empty(more opening than closing parenthes) -> return false
+
+    return true otherwise
+
+    // Time Complexity: O(n), Space Complexity: O(n) due to stack
+*/
+
 class Solution {
 public:
   bool isValid(string s) {

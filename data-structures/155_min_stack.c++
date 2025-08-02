@@ -1,5 +1,9 @@
 #include <stack>
 
+// A simple stack data structure that maintains two stacks:
+//                                              one for normal stack operations, and
+//                                              another one for keeping track of the min element.
+
 class MinStack {
 public:
   MinStack() {}

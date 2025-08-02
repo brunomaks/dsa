@@ -3,6 +3,35 @@
 
 using namespace std;
 
+/*
+  Validates a 9x9 Sudoku board.
+
+  Strategy:
+  - Use three 2D arrays to track occurrences of digits 1–9 in:
+    * Rows:     row[9][9]
+    * Columns:  col[9][9]
+    * 3x3 Boxes: box[3][3][9]
+
+  - Each digit is converted from char to index using: value = board[i][j] - '1' (range 0–8)
+
+  - To identify which 3x3 box a cell belongs to, use integer division:
+      box[i / 3][j / 3][value]
+
+  - For each filled cell, we check if the digit has already been seen in:
+    * that row:    if (row[i][value]++ > 0)
+    * that column: if (col[j][value]++ > 0)
+    * that box:    if (box[i / 3][j / 3][value]++ > 0)
+
+    This works because:
+    - The `++` operator increments **after** checking.
+    - So if `row[i][value]` is 0 (unseen), the condition is false, and it's safe.
+    - If it's already >0, that means the digit has appeared before => invalid.
+
+  // Overall:
+  // Time Complexity: O(1) — fixed size 9x9 board (81 cells)
+  // Space Complexity: O(1) — three fixed-size 2D/3D arrays (constant memory)
+*/
+
 class Solution {
 public:
 bool isValidSudoku(vector<vector<char>>& board) {

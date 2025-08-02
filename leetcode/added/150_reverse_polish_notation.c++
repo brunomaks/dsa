@@ -5,6 +5,18 @@
 
 using namespace std;
 
+/*
+  Iterate over each token in the strings array; O(n)
+
+    If its an operation token -> pop two values from the stack, perform the operation and push the value
+
+    Else (its a value) -> push the value onto the stack for
+
+  The last element on the stack is the valid computation according to Reverse Polish Notation
+
+  // Time Complexity: O(n); Space Complexity: O(n) due to stack
+*/
+
 class Solution {
 public:
   int evalRPN(vector<string> &tokens) {
