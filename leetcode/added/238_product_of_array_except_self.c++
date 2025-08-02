@@ -3,6 +3,18 @@
 
 using namespace std;
 
+/*
+Sample Input: [1, 2, 3, 4]
+Sample Output: [24, 12, 8, 6]
+
+  Iterate over each element and create a prefix array; O(n)
+    For the sample input, output: [1, 2, 6, 24]
+
+  Iterate over each prefix[i-1] and multiply the suffix; O(n)
+
+  // Time Complexity: O(n); Space Complexity: O(1)
+*/
+
 
 // Constraints: no division(/) operator, O(n) complexity
 class Solution {
