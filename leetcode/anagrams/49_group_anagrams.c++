@@ -5,6 +5,19 @@
 
 using namespace std;
 
+/*
+  Iterate over each input string; O(n) where n is the number of strings
+    Sort the string (sorted strings produce equal anagrams); O(k log k)
+    Push sorted string to the map
+
+  Reconstruct the result vector from the map; O(n)
+
+// Note: Since the alphabet is limited to only lowercase English letters,
+// we could use a counting sort or a frequency array to sort in O(k)
+
+// Overall: Time Complexity: O(n*k log(k)); Space Complexity: O(n) due to hashmap;
+*/
+
 class Solution {
 public:
     vector<vector<string>> groupAnagrams(vector<string>& strs) {
@@ -35,7 +48,7 @@ public:
         return true;
     }
 
-
+    // custom quicksort function - works fine for solving this problem
     string sort(string s) {
         if(s.length() <= 1) return s;
 
